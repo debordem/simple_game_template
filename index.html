@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Development Game</title>
+    <style>
+        #player{ 
+            position:fixed;
+                top: 0; /*[wherever you want it]*/
+                left:0; /*[wherever you want it]*/
+                width:10px;
+                height:10px;
+                background-color: red;}
+
+        .wall{ 
+            position:fixed;
+                top: 0; /*[wherever you want it]*/
+                left:100px; /*[wherever you want it]*/
+                width:50px;
+                height:50px;
+                background-color: rgb(94, 255, 0);}
+    </style>
+</head>
+<body>
+    <div id="player"></div>
+
+    <div class="wall"></div>
+    
+</body>
+
+<script>
+    // GLOBAL VARIABLES
+    let PLAYER = document.getElementById("player");
+
+    // coordinates for the player
+    let PLAYER_TOP;
+    let PLAYER_LEFT;
+
+    // direction of the movement true = positive, false = negative
+    let MOVE_TOP = 0;
+    let MOVE_LEFT = 0;
+
+    let STEP = 2;
+
+    let SPEED = 30;
+
+    console.log(PLAYER)
+
+
+    // FUNCTION THAT REPEATS EVERY VALUE OF SPEEED
+
+    // Animation for the Game default repeats every 10 ms
+    setInterval(function Animation(){
+
+        // set the new coordinates of the player 
+        playerNewCordinates();
+
+        // set the new coordinates of the player 
+        playerCheckBoundaryCollision()
+
+        // generic move function
+        moveElement(PLAYER,PLAYER_TOP,PLAYER_LEFT);
+
+    },SPEED)
+
+
+    
+
+
+    // function to check if the player collides with a 
+    function playerCheckBoundaryCollision(){
+        // if the top or bottom are reached change direction
+        if (PLAYER_TOP <= 0 || PLAYER_TOP >= 200){ MOVE_TOP = - MOVE_TOP };
+    }
+
+
+    // get sthe new coordinates for the player
+    function playerNewCordinates(){
+        let coords = PLAYER.getBoundingClientRect();
+        PLAYER_TOP = coords.top + MOVE_TOP;
+        PLAYER_LEFT = coords.left + MOVE_LEFT;
+    }
+
+
+    // generic moveElement function with element, top and left parameters
+    function moveElement(element,top,left){
+        element.style.top = top + "px" ;
+        element.style.left =  left + "px" ;
+    }
+
+
+    // Add event listener to the page
+    document.addEventListener('keydown', function(event) {
+        console.log(event.code)
+        switch(event.code){
+            case "ArrowRight": MOVE_LEFT = + STEP; MOVE_TOP = 0 ; break;
+            case "ArrowLeft": MOVE_LEFT = - STEP; MOVE_TOP = 0; break;
+            case "ArrowUp":  MOVE_TOP = - STEP ; break;
+            case "ArrowDown":   MOVE_TOP = + STEP ; break;
+        }
+    });
+
+    
+
+</script>
+
+
+</html>
