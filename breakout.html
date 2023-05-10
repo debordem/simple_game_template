@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Development Game</title>
+    <style>
+            #paddle {
+            position: fixed;
+            top: 150px; /*[wherever you want it]*/
+            left: 0; /*[wherever you want it]*/
+            width: 50px;
+            height: 10px;
+            background-color: red;
+            z-index: 100;
+            }
+
+            #ball {
+            position: fixed;
+            top: 0; /*[wherever you want it]*/
+            left: 0; /*[wherever you want it]*/
+            width: 20px;
+            height: 20px;
+            background-color: yellow;
+            z-index: 100;
+            border-radius:50%;
+            }
+
+            .play-area {
+            position: fixed;
+            top: 0; /*[wherever you want it]*/
+            left: 0px; /*[wherever you want it]*/
+            width: 210px;
+            height: 210px;
+            background-color: rgb(94, 255, 0);
+            }
+
+    </style>
+</head>
+<body>
+    <div class="play-area"></div>
+    <div id="paddle"></div>
+        <div id="ball"></div>
+    
+</body>
+
+<script>
+
+
+// GLOBAL VARIABLES
+
+// For the PADDLE
+let PADDLE = document.getElementById("paddle");
+// coordinates for the paddle
+let PADDLE_LEFT = 0;
+let PADDLE_TOP = 150;
+
+let MOVE_PADDLE_LEFT = 0;
+
+
+// For the BALL
+
+let BALL = document.getElementById("ball");
+
+// coordinates for the paddle
+// direction of the movement 
+
+let MOVE_TOP = 0;
+
+
+let STEP = 2;
+
+let SPEED = 30;
+
+let STOP = false;
+
+console.log(PADDLE);
+
+// FUNCTION THAT REPEATS EVERY VALUE OF SPEEED
+
+// Animation for the Game default repeats every 10 ms
+setInterval(function Animation() {
+  if (!STOP){
+    // FOR THE PADDLE
+  // set the new coordinates of the player
+    paddleNewCordinates();
+    // set the new coordinates of the player
+    paddleCheckBoundaryCollision();
+    // generic move function
+    moveElement(PADDLE, PADDLE_TOP, PADDLE_LEFT);
+    
+    //FOR THE BALL
+    
+    
+    
+  }
+  
+}, SPEED);
+
+// PADDLE FUNCTIONS
+
+function paddleCheckBoundaryCollision(){
+   if (PADDLE_LEFT <= 0 || PADDLE_LEFT >= 200) {
+    MOVE_PADDLE_LEFT = 0;
+  }
+}
+
+// get sthe new coordinates for the player
+function paddleNewCordinates() {
+  let coords = PADDLE.getBoundingClientRect();
+  PADDLE_LEFT = coords.left + MOVE_PADDLE_LEFT;
+}
+
+
+//BALL FUNCTIONS
+
+// let ELEMENT_BELOW = document.elementFromPoint(x,y)
+// Bottom Middle of Ball
+
+
+
+
+
+// function to check if the player collides with a
+function playerCheckBoundaryCollision() {
+  // if the top or bottom are reached change direction
+  if (PLAYER_TOP <= 0 || PLAYER_TOP >= 200) {
+    MOVE_TOP = -MOVE_TOP;
+  }
+  
+  if (PLAYER_LEFT <= 0 || PLAYER_LEFT >= 200) {
+    MOVE_LEFT = -MOVE_LEFT;
+  }
+  
+}
+
+
+// generic moveElement function with element, top and left parameters
+function moveElement(element, top, left) {
+  element.style.top = top + "px";
+  element.style.left = left + "px";
+}
+
+// Add event listener to the page
+document.addEventListener("keydown", function (event) {
+  console.log(event.code);
+  switch (event.code) {
+    case "ArrowRight":
+      MOVE_PADDLE_LEFT = +STEP;
+     
+      break;
+    case "ArrowLeft":
+      MOVE_PADDLE_LEFT = -STEP;
+      
+      break;
+    
+    
+    case "ArrowUp":
+      MOVE_TOP = -STEP;
+      break;
+    case "ArrowDown":
+      MOVE_TOP = +STEP;
+      break;
+     case "Space":
+      STOP = !STOP;
+      break;
+  }
+});
+
+
+    
+
+</script>
+
+
+</html>
